@@ -17,9 +17,10 @@ namespace BIAL {
 		void Update() {
 			var newPos = new Vector2();
 
-			if(HandleTouch(ref newPos));
-			else if(HandleGamePad(ref newPos));
-			else HandleMouse(ref newPos);
+			if(!(HandleTouch(ref newPos) ||
+				HandleGamePad(ref newPos))) {
+				HandleMouse(ref newPos);
+			}
 
 			newPos.x = Mathf.Clamp(newPos.x, 0, Screen.width);
 			newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height);
