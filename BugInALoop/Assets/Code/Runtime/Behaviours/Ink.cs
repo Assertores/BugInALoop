@@ -20,7 +20,7 @@ namespace BIAL.Runtime {
 		Vector3 lastPos = new Vector3();
 
 		void FixedUpdate() {
-			while(line.Peek().proneTime < Time.time) {
+			while(line.Count > 0 && line.Peek().proneTime < Time.time) {
 				var element = line.Dequeue();
 
 				Destroy(element.segmentObject); //Pooling?
@@ -39,10 +39,14 @@ namespace BIAL.Runtime {
 				element.segmentObject = Instantiate(segmentPrefab); //Pooling?
 				element.segmentObject.transform.position = lastPos;
 				element.segmentObject.transform.rotation = Quaternion.LookRotation(endPos - lastPos, Vector3.up);
-				element.segmentObject.transform.localScale = new Vector3(1.0f, 1.0f, (endPos - lastPos).magnitude);
+				//WARNING prefab dependent stuff. do not use or copy this code
+				//element.segmentObject.transform.localScale = new Vector3(1.0f, 1.0f, (endPos - lastPos).magnitude);
+				element.segmentObject.transform.GetChild(0).localScale = new Vector3(1.0f, 1.0f, (endPos - lastPos).magnitude);
+				element.segmentObject.transform.GetChild(1).localPosition *= (endPos - lastPos).magnitude;
 			}
 
 			line.Enqueue(element);
+			lastPos = endPos;
 		}
 	}
 }

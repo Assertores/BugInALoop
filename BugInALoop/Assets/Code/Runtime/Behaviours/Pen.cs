@@ -11,7 +11,6 @@ namespace BIAL.Runtime {
 		[SerializeField] Transform topRightCorner = null;
 
 		bool isAlreadyDrawing = false;
-		Vector3 penTip = new Vector3();
 
 		private void Awake() {
 			InputAdapter.s_instance.startDrawing += StartDrawing;
@@ -19,7 +18,9 @@ namespace BIAL.Runtime {
 		}
 
 		private void FixedUpdate() {
-			ink.AddSegment(penTip);
+			if(isAlreadyDrawing) {
+				ink.AddSegment(transform.position);
+			}
 		}
 
 		void StartDrawing() {
@@ -27,9 +28,6 @@ namespace BIAL.Runtime {
 		}
 
 		void OnChange(Observable<Vector2> element) {
-			if(!isAlreadyDrawing) {
-				return;
-			}
 
 			if(Physics.Raycast(Camera.main.ScreenPointToRay(element.value), out RaycastHit hit)) {
 				if(hit.point.x < bottemLeftCorner.position.x ||
@@ -39,7 +37,7 @@ namespace BIAL.Runtime {
 					return;
 				}
 
-				penTip = hit.point;
+				transform.position = hit.point;
 			}
 		}
 	}

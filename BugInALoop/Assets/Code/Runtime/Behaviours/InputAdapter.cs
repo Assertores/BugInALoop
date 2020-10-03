@@ -6,7 +6,7 @@ using AsserTOOLres;
 namespace BIAL {
 	public class InputAdapter : Singleton<InputAdapter> {
 
-		public Observable<Vector2> currentPos;
+		public Observable<Vector2> currentPos = new Observable<Vector2>();
 		public System.Action startDrawing;
 		bool hasStarted = false;
 

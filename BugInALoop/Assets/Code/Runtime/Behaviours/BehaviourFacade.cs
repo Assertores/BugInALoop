@@ -18,5 +18,14 @@ namespace BIAL {
 
 		public Observable<int>[] ints = new Observable<int>[(int)OIntIdentifyer.size];
 		public Observable<float>[] floats = new Observable<float>[(int)OFloatIdentifyer.size];
+
+		protected override void OnMyAwake() {
+			for(int i = 0; i < ints.Length; i++) {
+				ints[i] = new Observable<int>();
+			}
+			for(int i = 0; i < floats.Length; i++) {
+				floats[i] = new Observable<float>();
+			}
+		}
 	}
 }
