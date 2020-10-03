@@ -77,7 +77,7 @@ namespace BIAL.Runtime
 				T newObject = objectToPool ? Object.Instantiate(objectToPool, poolParent) : objectToPoolGetter?.Invoke();
 				if (newObject == null)
 				{
-#if EMBER_DEBUG
+#if UNITY_EDITOR
 					throw new System.ArgumentNullException($"Object pool could not create a new poolobject from neither {nameof(objectToPool)} nor {nameof(objectToPoolGetter)}.");
 #else
 					continue;
