@@ -24,7 +24,7 @@ namespace BIAL.Runtime
 
 		private void OnChange()
 		{
-			target.text = BehaviourFacade.s_instance.floats[(int) type].ToString();
+			target.text = BehaviourFacade.s_instance.floats[(int) type].value.ToString();
 		}
 	}
 }
