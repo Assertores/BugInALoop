@@ -21,32 +21,47 @@ namespace BIAL.Runtime {
 
 		void FixedUpdate() {
 			while(line.Count > 0 && line.Peek().proneTime < Time.time) {
-				var element = line.Dequeue();
-
-				Destroy(element.segmentObject); //Pooling?
+				RemoveSegment();
 			}
 		}
 
-		public void AddSegment(Vector3 endPos) {
+		public float AddSegment(Vector3 endPos) {
 			if(lastPos == endPos) {
-				return;
+				return 0;
 			}
 			segment element;
+			float inkUsage = 0;
 
 			element.proneTime = Time.time + lifeTime;
 			element.segmentObject = null;
 			if(line.Count > 0) {
+
 				element.segmentObject = Instantiate(segmentPrefab); //Pooling?
+
 				element.segmentObject.transform.position = lastPos;
 				element.segmentObject.transform.rotation = Quaternion.LookRotation(endPos - lastPos, Vector3.up);
-				//WARNING prefab dependent stuff. do not use or copy this code
+				//WARNING: prefab dependent stuff. do not use or copy this code
 				//element.segmentObject.transform.localScale = new Vector3(1.0f, 1.0f, (endPos - lastPos).magnitude);
 				element.segmentObject.transform.GetChild(0).localScale = new Vector3(1.0f, 1.0f, (endPos - lastPos).magnitude);
 				element.segmentObject.transform.GetChild(1).localPosition *= (endPos - lastPos).magnitude;
+
+				inkUsage = (endPos - lastPos).magnitude;
 			}
 
 			line.Enqueue(element);
 			lastPos = endPos;
+			return inkUsage;
+		}
+
+		public void Clear() {
+			while(line.Count > 0) {
+				RemoveSegment();
+			}
+		}
+
+		void RemoveSegment() {
+			var element = line.Dequeue();
+			Destroy(element.segmentObject); //Pooling?
 		}
 	}
 }

@@ -14,10 +14,18 @@ namespace BIAL {
 		size
 	}
 
+	public enum Scene : int {
+		startUp = 0,
+		menu,
+		game,
+		size
+	}
+
 	public class BehaviourFacade : Singleton<BehaviourFacade> {
 
 		public Observable<int>[] ints = new Observable<int>[(int)OIntIdentifyer.size];
 		public Observable<float>[] floats = new Observable<float>[(int)OFloatIdentifyer.size];
+		public Observable<Scene> currentScene = new Observable<Scene>();
 
 		protected override void OnMyAwake() {
 			for(int i = 0; i < ints.Length; i++) {

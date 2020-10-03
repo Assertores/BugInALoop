@@ -19,11 +19,15 @@ namespace BIAL.Runtime {
 
 		private void FixedUpdate() {
 			if(isAlreadyDrawing) {
-				ink.AddSegment(transform.position);
+				float inkUsage = ink.AddSegment(transform.position);
+				if(BehaviourFacade.s_instance.currentScene.value == Scene.game) {
+					BehaviourFacade.s_instance.floats[(int)OFloatIdentifyer.ink].value -= inkUsage;
+				}
 			}
 		}
 
 		void StartDrawing() {
+			ink.Clear();
 			isAlreadyDrawing = true;
 		}
 
