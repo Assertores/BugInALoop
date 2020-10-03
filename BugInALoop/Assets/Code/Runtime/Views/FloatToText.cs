@@ -1,28 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
-using AsserTOOLres;
 
-namespace BIAL {
-	public class FloatToText : MonoBehaviour {
+namespace BIAL.Runtime
+{
+	public class FloatToText : MonoBehaviour
+	{
+		[SerializeField] private TextMeshProUGUI target = null;
+		[SerializeField] private OFloatIdentifyer type = OFloatIdentifyer.ink;
 
-		[SerializeField] TextMeshProUGUI target = null;
-		[SerializeField] OFloatIdentifyer type = OFloatIdentifyer.ink;
-
-		void Start() {
-			if(!target) {
+		private void Start()
+		{
+			if (!target)
+			{
 				Debug.LogError("[FloatToText: " + gameObject.name + "] target reference not set!");
 				Destroy(this);
+
 				return;
 			}
 
 			OnChange();
-			BehaviourFacade.s_instance.floats[(int)type] += OnChange;
+			BehaviourFacade.s_instance.floats[(int) type] += OnChange;
 		}
 
-		void OnChange() {
-			target.text = BehaviourFacade.s_instance.floats[(int)type].ToString();
+		private void OnChange()
+		{
+			target.text = BehaviourFacade.s_instance.floats[(int) type].ToString();
 		}
 	}
 }
