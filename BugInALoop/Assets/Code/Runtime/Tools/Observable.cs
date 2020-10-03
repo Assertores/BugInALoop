@@ -1,53 +1,67 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Observable<T> {
-	public Action OnValueChange;
-	public Action<Observable<T>> OnValueChangeWithState;
-	private T backedValue;
+namespace AsserTOOLres {
+	public class Observable<T> {
+		#region ===== ===== CALLBACK ===== =====
 
-	public T value {
-		get => backedValue;
-		set {
-			if(value.Equals(backedValue)) {
-				return;
+		public System.Action OnValueChange;
+		public System.Action<Observable<T>> OnValueChangeWithState;
+
+		#endregion
+		#region ===== ===== API ===== =====
+
+		public T value {
+			get {
+				return _backingValue;
 			}
-
-			backedValue = value;
-			OnValueChange?.Invoke();
-			OnValueChangeWithState?.Invoke(this);
+			set {
+				if(value.Equals(_backingValue))
+					return;
+				_backingValue = value;
+				OnValueChange?.Invoke();
+				OnValueChangeWithState?.Invoke(this);
+			}
 		}
-	}
 
-	public Observable() {
-		backedValue = default;
-	}
+		#endregion
+		#region ===== ===== CORE ===== =====
 
-	public Observable(T value) {
-		backedValue = value;
-	}
+		T _backingValue;
 
-	public static Observable<T> operator +(Observable<T> self, Action action) {
-		self.OnValueChange += action;
+		public Observable() {
+			_backingValue = default;
+		}
 
-		return self;
-	}
+		public Observable(T value) {
+			_backingValue = value;
+		}
 
-	public static Observable<T> operator +(Observable<T> self, Action<Observable<T>> action) {
-		self.OnValueChangeWithState += action;
+		public static Observable<T> operator +(Observable<T> self, System.Action action) {
+			self.OnValueChange += action;
 
-		return self;
-	}
+			return self;
+		}
 
-	public static Observable<T> operator -(Observable<T> self, Action action) {
-		self.OnValueChange -= action;
+		public static Observable<T> operator +(Observable<T> self, System.Action<Observable<T>> action) {
+			self.OnValueChangeWithState += action;
 
-		return self;
-	}
+			return self;
+		}
 
-	public static Observable<T> operator -(Observable<T> self, Action<Observable<T>> action) {
-		self.OnValueChangeWithState -= action;
+		public static Observable<T> operator -(Observable<T> self, System.Action action) {
+			self.OnValueChange -= action;
 
-		return self;
+			return self;
+		}
+
+		public static Observable<T> operator -(Observable<T> self, System.Action<Observable<T>> action) {
+			self.OnValueChangeWithState -= action;
+
+			return self;
+		}
+
+		#endregion
 	}
 }
-
