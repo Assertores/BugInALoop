@@ -36,8 +36,8 @@ namespace BIAL.Runtime {
 			if(Physics.Raycast(Camera.main.ScreenPointToRay(element.value), out RaycastHit hit)) {
 				if(hit.point.x < bottemLeftCorner.position.x ||
 					hit.point.x > topRightCorner.position.x ||
-					hit.point.y < bottemLeftCorner.position.y ||
-					hit.point.y > topRightCorner.position.y) {
+					hit.point.z < bottemLeftCorner.position.z ||
+					hit.point.z > topRightCorner.position.z) {
 					return;
 				}
 
