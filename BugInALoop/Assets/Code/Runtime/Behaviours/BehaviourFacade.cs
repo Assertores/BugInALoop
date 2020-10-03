@@ -5,16 +5,18 @@ using AsserTOOLres;
 
 namespace BIAL {
 	public enum OIntIdentifyer : int {
-		bugCount,
+		bugCatched = 0,
+		size
 	}
 
 	public enum OFloatIdentifyer : int {
-		ink,
+		ink = 0,
+		size
 	}
 
 	public class BehaviourFacade : Singleton<BehaviourFacade> {
 
-		public Observable<float>[] floats;
-		public Observable<int>[] ints;
+		public Observable<int>[] ints = new Observable<int>[(int)OIntIdentifyer.size];
+		public Observable<float>[] floats = new Observable<float>[(int)OFloatIdentifyer.size];
 	}
 }

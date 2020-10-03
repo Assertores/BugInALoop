@@ -8,7 +8,7 @@ namespace BIAL {
 	public class IntToText : MonoBehaviour {
 
 		[SerializeField] TextMeshProUGUI target = null;
-		[SerializeField] OIntIdentifyer type = OIntIdentifyer.bugCount;
+		[SerializeField] OIntIdentifyer type = OIntIdentifyer.bugCatched;
 
 		void Start() {
 			if(!target) {
