@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.45101106, g: 0.50086313, b: 0.57428855, a: 1}
+  m_IndirectSpecularColor: {r: 0.45101082, g: 0.5008627, b: 0.574288, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -203,13 +203,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 0, y: 4.24, z: -6.39}
+  m_LocalRotation: {x: 0.70548624, y: -0.047829375, z: 0.047829516, w: 0.7054883}
+  m_LocalPosition: {x: 0.005, y: 4.035, z: -6.421}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.98, y: 0, z: 7.7570004}
 --- !u!1001 &6802920708357258201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -251,6 +251,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570895424160689979, guid: 3f98f1a4d90033541ab1bed8cf668cde,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4701950923364606570, guid: 3f98f1a4d90033541ab1bed8cf668cde,
         type: 3}
@@ -335,6 +340,26 @@ PrefabInstance:
     - target: {fileID: 7521504857354146338, guid: 3f98f1a4d90033541ab1bed8cf668cde,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041073341103020189, guid: 3f98f1a4d90033541ab1bed8cf668cde,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041073341103020189, guid: 3f98f1a4d90033541ab1bed8cf668cde,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041073341103020189, guid: 3f98f1a4d90033541ab1bed8cf668cde,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9041073341103020189, guid: 3f98f1a4d90033541ab1bed8cf668cde,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
