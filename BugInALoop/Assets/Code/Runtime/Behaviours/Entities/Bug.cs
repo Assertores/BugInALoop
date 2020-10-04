@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using BIAL.Runtime;
 using BIAL.Runtime.DataStorage;
 using BIAL.Runtime.Interfaces;
+using BIAL.Singletons;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,10 +10,10 @@ namespace BIAL.Entities
 {
 	public class Bug : Entity, IPoolableObject<Bug>
 	{
+		private const float REACHED_THRESHOLD = 0.01f;
+		private static GameObject HVanishPoint = null;
 		public ObjectPool<Bug> PoolOrigin { get; set; }
 		public int CurrentHealth;
-
-		static List<Bug> references = new List<Bug>();
 
 		public override void Ready()
 		{
@@ -28,16 +28,9 @@ namespace BIAL.Entities
 			}
 		}
 
-		private void Awake() {
-			references.Add(this);
-		}
-
-		private void OnDestroy() {
-			references.Remove(this);
-		}
-
 		private void FixedUpdate()
 		{
+			//TODO: Dont use this in fixed update, call it when necessary 
 			if (ShouldTakeDamage())
 			{
 				CurrentHealth--;
@@ -54,44 +47,54 @@ namespace BIAL.Entities
 			return !CanLeaveScreen() && IsAlone();
 		}
 
-		GameObject h_vanishPoint = null;
 		private bool CanLeaveScreen()
 		{
-			if(!h_vanishPoint) {
-				h_vanishPoint = GameObject.FindGameObjectWithTag("Finish");
-			}
-			var path = new NavMeshPath();
-			if(NavMesh.CalculatePath(transform.position, h_vanishPoint.transform.position, NavMesh.AllAreas, path))
+			if (!HVanishPoint)
 			{
-				if(path.corners[path.corners.Length - 1].x == h_vanishPoint.transform.position.x &&
-					path.corners[path.corners.Length - 1].z == h_vanishPoint.transform.position.z)
+				HVanishPoint = GameObject.FindGameObjectWithTag("Finish");
+			}
+
+			NavMeshPath path = new NavMeshPath();
+			if (NavMesh.CalculatePath(transform.position, HVanishPoint.transform.position, NavMesh.AllAreas, path))
+			{
+				if ((path.corners[path.corners.Length - 1].XYZtoXZ() - HVanishPoint.transform.position.XYZtoXZ()).sqrMagnitude < REACHED_THRESHOLD)
 				{
-					Debug.Log(gameObject.name + " has found the vanishpoint.");
+					Debug.Log(gameObject.name + " has found the vanish point.");
+
 					return true;
 				}
 			}
+
 			return false;
 		}
 
 		private bool IsAlone()
 		{
-			foreach(var it in references) {
-				var path = new NavMeshPath();
-				if(NavMesh.CalculatePath(transform.position, it.transform.position, NavMesh.AllAreas, path))
+			foreach (Entity other in EntityStateManager.ActiveEntities)
+			{
+				if (other == this)
 				{
-					if(path.corners[path.corners.Length - 1].x == it.transform.position.x &&
-						path.corners[path.corners.Length - 1].z == it.transform.position.z)
+					continue;
+				}
+				
+				NavMeshPath path = new NavMeshPath();
+				if (NavMesh.CalculatePath(transform.position, other.transform.position, NavMesh.AllAreas, path))
+				{
+					if ((path.corners[path.corners.Length - 1].XYZtoXZ() - other.transform.position.XYZtoXZ()).sqrMagnitude < REACHED_THRESHOLD)
 					{
 						Debug.Log(gameObject.name + " has found someone else.");
+
 						return false;
 					}
 				}
 			}
+
 			return true;
 		}
 
 		public override void Death()
 		{
+			//TODO: Implement death animation/ Fading etc. here, but make sure it is independent from the Entity because it will be destroyed next frame
 			throw new NotImplementedException();
 		}
 
