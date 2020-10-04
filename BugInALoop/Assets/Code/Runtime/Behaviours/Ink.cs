@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BIAL.Runtime {
 
-	struct segment {
+	class segment {
 		public float proneTime;
 		public GameObject segmentObject;
 	}
@@ -15,11 +15,16 @@ namespace BIAL.Runtime {
 		[SerializeField] GameObject segmentPrefab = null;
 
 		Queue<segment> line = new Queue<segment>();
-		
+
+		bool isPaused = false;
+		float pauseStartTime = 0;
 
 		Vector3 lastPos = new Vector3();
 
 		void FixedUpdate() {
+			if(isPaused) {
+				return;
+			}
 			while(line.Count > 0 && line.Peek().proneTime < Time.time) {
 				RemoveSegment();
 			}
@@ -29,7 +34,7 @@ namespace BIAL.Runtime {
 			if(lastPos == endPos) {
 				return 0;
 			}
-			segment element;
+			segment element = new segment();
 			float inkUsage = 0;
 
 			element.proneTime = Time.time + lifeTime;
@@ -57,6 +62,20 @@ namespace BIAL.Runtime {
 			while(line.Count > 0) {
 				RemoveSegment();
 			}
+		}
+
+		public void Pause() {
+			isPaused = true;
+			pauseStartTime = Time.time;
+		}
+
+		public void Resume() {
+			pauseStartTime = Time.time - pauseStartTime;
+			foreach(var it in line) {
+				it.proneTime += pauseStartTime;
+			}
+
+			isPaused = false;
 		}
 
 		void RemoveSegment() {

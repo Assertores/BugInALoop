@@ -11,6 +11,8 @@ namespace BIAL.Runtime {
 		[SerializeField] Paper ingamePaper = null;
 		[SerializeField] Paper menuPaper = null;
 
+		public static System.Action s_changedBlocker;
+
 		Ink currentInk = null;
 		Paper currentPaper = null;
 
@@ -61,6 +63,7 @@ namespace BIAL.Runtime {
 				break;
 			case Scene.game:
 				currentInk = ingameInk;
+				ingameInk.Resume();
 				currentPaper = ingamePaper;
 				return;
 			case Scene.gameOver:
@@ -69,6 +72,7 @@ namespace BIAL.Runtime {
 			default:
 				break;
 			}
+			ingameInk.Pause();
 			currentInk = menuInk;
 			currentInk.Clear();
 		}
