@@ -12,6 +12,7 @@ namespace BIAL.Runtime
 
 	public enum OFloatIdentifier : int {
 		Ink = 0,
+		MaxInk,
 		Size
 	}
 
