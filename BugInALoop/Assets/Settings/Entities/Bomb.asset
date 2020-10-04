@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac33d03c71d080943982b7656c6e3261, type: 3}
-  m_Name: BasicBug
+  m_Name: Bomb
   m_EditorClassIdentifier: 
-  DirectorCreditCost: 1
-  EntityView: {fileID: 765694663134902399, guid: 95800c4ffd5f6b04aa27dd0fa0aec476,
+  DirectorCreditCost: 2
+  EntityView: {fileID: 5894292073409845701, guid: 89ceeec9ec22dce4a81bd43b3a2b8e43,
     type: 3}
   Factory: {fileID: 11400000, guid: 786549da637446a469d840824b9d6f2f, type: 2}
   EntityCollisionSize: {x: 0.1, y: 0.1}
   Health: 1
-  MovementSpeed: 1
-  KillInkGain: 0
-  KillScoreGain: 0
+  MovementSpeed: 0.5
+  KillInkGain: -2
+  KillScoreGain: -2
