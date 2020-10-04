@@ -17,8 +17,7 @@ namespace BIAL.Runtime
 	}
 
 	public enum Scene : int {
-		StartUp = 0,
-		Menu,
+		Menu = 0,
 		Game,
 		GameOver,
 		Size

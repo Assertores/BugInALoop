@@ -25,11 +25,10 @@ namespace BIAL.Runtime {
 			var path = new NavMeshPath();
 			if(NavMesh.CalculatePath(transform.position, s_vanishPoint.transform.position, NavMesh.AllAreas, path)) {
 				if((path.corners[path.corners.Length - 1].XYZtoXZ() - s_vanishPoint.transform.position.XYZtoXZ()).sqrMagnitude < 0.01f) {
-					Debug.Log(gameObject.name + " has found the vanish point.");
-
-					Execute();
+					return;
 				}
 			}
+			Execute();
 		}
 
 		public abstract void Execute();

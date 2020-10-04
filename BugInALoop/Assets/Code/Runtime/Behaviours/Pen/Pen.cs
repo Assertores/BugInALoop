@@ -9,12 +9,10 @@ namespace BIAL.Runtime {
 		[SerializeField] Ink ingameInk = null;
 		[SerializeField] Ink menuInk = null;
 		[SerializeField] Paper ingamePaper = null;
-		[SerializeField] Paper menuPaper = null;
 
 		public static System.Action s_changedBlocker;
 
 		Ink currentInk = null;
-		Paper currentPaper = null;
 
 		bool isAlreadyDrawing = false;
 
@@ -45,36 +43,26 @@ namespace BIAL.Runtime {
 		}
 
 		void StartDrawing() {
-			ingameInk.Clear();
+			currentInk.Clear();
 			isAlreadyDrawing = true;
 		}
 
 		void OnChange(Observable<Vector2> element) {
-			if(!currentPaper) {
+			if(!ingamePaper) {
 				return;
 			}
-			transform.position = currentPaper.GetPointOnPaper(Camera.main.ScreenPointToRay(element.value));
+			transform.position = ingamePaper.GetPointOnPaper(Camera.main.ScreenPointToRay(element.value));
 		}
 
 		void ChangeSzene(Observable<Scene> szene) {
-			switch(szene.value) {
-			case Scene.Menu:
-				currentPaper = menuPaper;
-				break;
-			case Scene.Game:
+			currentInk?.Clear();
+			if(szene.value == Scene.Game) {
 				currentInk = ingameInk;
-				ingameInk.Resume();
-				currentPaper = ingamePaper;
-				return;
-			case Scene.GameOver:
-				ingameInk.Clear();
-				break;
-			default:
-				break;
+			} else {
+				currentInk = menuInk;
 			}
-			ingameInk.Pause();
-			currentInk = menuInk;
-			currentInk.Clear();
+			isAlreadyDrawing = false;
+			InputAdapter.s_instance.DoReset();
 		}
 	}
 }
