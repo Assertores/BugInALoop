@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using BIAL.Runtime.DataStorage;
-using Code.Runtime.DataStorage;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -44,10 +42,8 @@ namespace BIAL.Runtime.DataStorage.Spawning
 			return null;
 		}
 	}
-}
 
-namespace Code.Runtime.DataStorage
-{
+	[Serializable]
 	public class SpawnableEntity
 	{
 		public EntityConfig Target;

@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace BIAL.Runtime.DataStorage
+﻿namespace BIAL.Runtime.DataStorage
 {
 	public class BugConfig : EntityConfig
 	{
-		public int Health;
-		public float MovementSpeed;
+		public int Health = 1;
+		public float MovementSpeed = 1;
 		public float KillInkGain;
 		public int KillScoreGain;
 	}

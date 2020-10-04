@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using BIAL.Runtime.Entities;
+﻿using System.Collections.Generic;
 using BIAL.Runtime.DataStorage;
+using BIAL.Runtime.Entities;
 using BIAL.Runtime.Singletons;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace BIAL.Runtime.Spawning
 {
@@ -60,38 +58,48 @@ namespace BIAL.Runtime.Spawning
 		private static void CreateNewEntity(EntityConfig config)
 		{
 			Entity newEntity = config.Factory.CreateNewEntity(config);
-
 			Vector2 startPosition = GetRandomSpawnPosition();
 			Vector2 walkPosition = GetRandomWalkPosition();
 			Vector2 posDifference = walkPosition - startPosition;
-			
 			newEntity.transform.position = new Vector3(startPosition.x, LevelSettings.Current.EntitySpawnHeight, startPosition.y);
-			newEntity.transform.eulerAngles = new Vector3(0,0,Mathf.Atan2(posDifference.y, posDifference.x) * Mathf.Rad2Deg);
-
+			newEntity.transform.forward = posDifference.XZtoXYZ().normalized;
 			EntityStateManager.AddActiveEntity(newEntity);
 		}
 
 		private static Vector2 GetRandomSpawnPosition()
 		{
-			float xOff = Random.value * LevelSettings.Current.SpawnDistance;
-			float yOff = Random.value * LevelSettings.Current.SpawnDistance;
+			Vector2 center = (LevelSettings.Current.NonSpawnableRectLowerPoint + LevelSettings.Current.NonSpawnableRectUpperPoint) / 2;
+			Vector2 rectSize = LevelSettings.Current.NonSpawnableRectUpperPoint - LevelSettings.Current.NonSpawnableRectLowerPoint;
+			bool verticalSide = Random.value > 0.5f;
+			int sideMul = Random.value > 0.5f ? 1 : -1;
+			float xVal;
+			float yVal;
+			if (verticalSide)
+			{
+				xVal = Random.Range((-rectSize.x / 2) - LevelSettings.Current.SpawnDistance,
+									(rectSize.x  / 2) + LevelSettings.Current.SpawnDistance);
 
-			int xSide = Random.value > 0.5f ? 1 : -1;
-			int ySide = Random.value > 0.5f ? 1 : -1;
-			
-			Rect rect = LevelSettings.Current.NonSpawnableRect;
-			return new Vector2(rect.position.x + rect.width / 2 * xSide + xOff * xSide,
-								rect.position.y + rect.height / 2 * ySide + yOff * ySide);
+				yVal = (rectSize.y + (LevelSettings.Current.SpawnDistance * Random.value)) * sideMul;
+			}
+			else
+			{
+				xVal = (rectSize.x + (LevelSettings.Current.SpawnDistance * Random.value)) * sideMul;
+				yVal = Random.Range((-rectSize.y / 2) - LevelSettings.Current.SpawnDistance,
+									(rectSize.y  / 2) + LevelSettings.Current.SpawnDistance);
+			}
+
+			return center + new Vector2(xVal, yVal);
 		}
 
 		private static Vector2 GetRandomWalkPosition()
 		{
-			Rect walkRect = LevelSettings.Current.EntityTargetWalkRect;
-			float lowerX = walkRect.position.x - walkRect.width / 2;
-			float upperX = walkRect.position.x + walkRect.width / 2;
-			float lowerY = walkRect.position.y - walkRect.height / 2;
-			float upperY = walkRect.position.y + walkRect.height / 2;
-			
+			Vector2 center = (LevelSettings.Current.EntityWalkRectLowerPoint + LevelSettings.Current.EntityWalkRectUpperPoint) / 2;
+			Vector2 rectSize = LevelSettings.Current.EntityWalkRectUpperPoint - LevelSettings.Current.EntityWalkRectLowerPoint;
+			float lowerX = center.x                                           - (rectSize.x / 2);
+			float upperX = center.x                                           + (rectSize.x / 2);
+			float lowerY = center.y                                           - (rectSize.y / 2);
+			float upperY = center.y                                           + (rectSize.y / 2);
+
 			return new Vector2(Random.Range(lowerX, upperX), Random.Range(lowerY, upperY));
 		}
 

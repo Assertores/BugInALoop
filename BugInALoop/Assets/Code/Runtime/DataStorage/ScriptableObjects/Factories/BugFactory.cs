@@ -1,6 +1,6 @@
 ﻿using System;
-using BIAL.Runtime.Entities;
 using BIAL.Runtime.DataStorage;
+using BIAL.Runtime.Entities;
 using UnityEngine;
 
 namespace BIAL.Runtime.Interfaces
@@ -26,7 +26,7 @@ namespace BIAL.Runtime.Interfaces
 			targetBug.Initialise(bugConfig);
 			Instantiate(config.EntityView, targetBug.transform);
 
-			return default;
+			return targetBug;
 		}
 
 		private static Bug CreateEmptyBug()

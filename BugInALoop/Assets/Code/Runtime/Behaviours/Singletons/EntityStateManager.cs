@@ -1,13 +1,34 @@
 ﻿using System.Collections.Generic;
-using AsserTOOLres;
 using BIAL.Runtime.Entities;
+using UnityEngine;
 
 namespace BIAL.Runtime.Singletons
 {
-	public class EntityStateManager : Singleton<EntityStateManager>
+	public class EntityStateManager : MonoBehaviour
 	{
 		public static IReadOnlyList<Entity> ActiveEntities => ActiveEntitiesInternal;
 		private static readonly List<Entity> ActiveEntitiesInternal = new List<Entity>();
+
+		private void Start()
+		{
+			BehaviourFacade.s_instance.CurrentScene += SceneChanged;
+		}
+
+		private void OnDestroy()
+		{
+			if (BehaviourFacade.Exists())
+			{
+				BehaviourFacade.s_instance.CurrentScene -= SceneChanged;
+			}
+		}
+
+		private void SceneChanged()
+		{
+			if (BehaviourFacade.s_instance.CurrentScene.value == Scene.GameOver)
+			{
+				ClearEntities();
+			}
+		}
 
 		private void FixedUpdate()
 		{
@@ -31,14 +52,35 @@ namespace BIAL.Runtime.Singletons
 			ActiveEntitiesInternal.RemoveAt(index);
 		}
 
+		public static void ForceRemoveEntity(Entity target, bool killEntity = true)
+		{
+			for (int i = 0; i < ActiveEntitiesInternal.Count; i++)
+			{
+				if (ActiveEntitiesInternal[i] == target)
+				{
+					ForceRemoveEntity(i, killEntity);
+
+					return;
+				}
+			}
+		}
+
 		private static void ValidateEntityStates()
 		{
-			for (int i = ActiveEntitiesInternal.Count; i >= 0; i--)
+			for (int i = ActiveEntitiesInternal.Count - 1; i >= 0; i--)
 			{
 				if (ActiveEntitiesInternal[i].ShouldDie())
 				{
 					ForceRemoveEntity(i);
 				}
+			}
+		}
+
+		private static void ClearEntities()
+		{
+			for (int i = ActiveEntitiesInternal.Count - 1; i >= 0; i--)
+			{
+				ForceRemoveEntity(i);
 			}
 		}
 	}

@@ -7,8 +7,11 @@ namespace BIAL.Runtime.DataStorage
 	{
 		public static LevelSettings Current { get; set; }
 
-		public Rect EntityTargetWalkRect;
-		public Rect NonSpawnableRect;
+		public Vector2 EntityWalkRectLowerPoint;
+		public Vector2 EntityWalkRectUpperPoint;
+		public Vector2 NonSpawnableRectLowerPoint;
+		public Vector2 NonSpawnableRectUpperPoint;
+
 		public float SpawnDistance;
 		public float EntitySpawnHeight;
 		public SpawningDirector[] StartSpawningDirectors;

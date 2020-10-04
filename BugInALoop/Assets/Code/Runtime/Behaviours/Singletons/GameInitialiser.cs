@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using BIAL.Runtime.DataStorage;
 using BIAL.Runtime.Spawning;
 using UnityEngine;
@@ -16,7 +14,7 @@ namespace BIAL.Runtime.Singletons
 
 		private bool gameSceneInitialised;
 		private SpawningDirector[] activeDirectors;
-		
+
 		private void Awake()
 		{
 			BehaviourFacade.s_instance.CurrentScene += OnSceneChange;
@@ -24,7 +22,10 @@ namespace BIAL.Runtime.Singletons
 
 		private void OnDestroy()
 		{
-			BehaviourFacade.s_instance.CurrentScene -= OnSceneChange;
+			if (BehaviourFacade.Exists())
+			{
+				BehaviourFacade.s_instance.CurrentScene -= OnSceneChange;
+			}
 		}
 
 		private void OnSceneChange()
@@ -42,10 +43,8 @@ namespace BIAL.Runtime.Singletons
 		private void InitialiseGameScene()
 		{
 			gameSceneInitialised = true;
-			
 			LevelSettings.Current = targetLevelSettings;
 			activeDirectors = new SpawningDirector[targetLevelSettings.StartSpawningDirectors.Length];
-			
 			for (int i = 0; i < targetLevelSettings.StartSpawningDirectors.Length; i++)
 			{
 				activeDirectors[i] = Instantiate(targetLevelSettings.StartSpawningDirectors[i]);
@@ -57,15 +56,13 @@ namespace BIAL.Runtime.Singletons
 		private void TerminateGameScene()
 		{
 			gameSceneInitialised = false;
-			
 			foreach (SpawningDirector director in activeDirectors)
 			{
 				director.ForceDestroyDirector();
 			}
-			
+
 			LevelSettings.Current = null;
 			activeDirectors = null;
-
 			GameSceneTerminated?.Invoke();
 		}
 	}
