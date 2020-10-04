@@ -35,9 +35,9 @@ namespace BIAL.Runtime {
 
 		private void FixedUpdate() {
 			if(isAlreadyDrawing) {
-				float inkUsage = ingameInk.AddSegment(transform.position);
-				if(BehaviourFacade.s_instance.currentScene.value == Scene.game) {
-					BehaviourFacade.s_instance.floats[(int)OFloatIdentifyer.ink].value -= inkUsage;
+				float inkUsage = ink.AddSegment(transform.position);
+				if(BehaviourFacade.s_instance.CurrentScene.value == Scene.Game) {
+					BehaviourFacade.s_instance.Floats[(int)OFloatIdentifier.Ink].value -= inkUsage;
 				}
 			}
 		}

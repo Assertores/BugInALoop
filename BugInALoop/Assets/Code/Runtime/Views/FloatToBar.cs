@@ -6,7 +6,7 @@ namespace BIAL.Runtime
 	public class FloatToBar : MonoBehaviour
 	{
 		[SerializeField] private Image bar = null;
-		[SerializeField] private OFloatIdentifyer type = OFloatIdentifyer.ink;
+		[SerializeField] private OFloatIdentifier type = OFloatIdentifier.Ink;
 		[SerializeField] private float maxValue = 0;
 		[SerializeField] private bool shouldScale = true;
 
@@ -21,17 +21,17 @@ namespace BIAL.Runtime
 			}
 
 			OnChange();
-			BehaviourFacade.s_instance.floats[(int) type] += OnChange;
+			BehaviourFacade.s_instance.Floats[(int) type] += OnChange;
 		}
 
 		private void OnChange()
 		{
-			if (shouldScale && (BehaviourFacade.s_instance.floats[(int) type].value > maxValue))
+			if (shouldScale && (BehaviourFacade.s_instance.Floats[(int) type].value > maxValue))
 			{
-				maxValue = BehaviourFacade.s_instance.floats[(int) type].value;
+				maxValue = BehaviourFacade.s_instance.Floats[(int) type].value;
 			}
 
-			bar.fillAmount = Mathf.Clamp(BehaviourFacade.s_instance.floats[(int) type].value / maxValue, 0, 1);
+			bar.fillAmount = Mathf.Clamp(BehaviourFacade.s_instance.Floats[(int) type].value / maxValue, 0, 1);
 		}
 	}
 }

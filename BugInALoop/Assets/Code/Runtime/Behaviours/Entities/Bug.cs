@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using BIAL.Runtime;
 using BIAL.Runtime.DataStorage;
 using BIAL.Runtime.Interfaces;
-using BIAL.Singletons;
+using BIAL.Runtime.Singletons;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace BIAL.Entities
+namespace BIAL.Runtime.Entities
 {
 	public class Bug : Entity, IPoolableObject<Bug>
 	{
@@ -35,6 +36,13 @@ namespace BIAL.Entities
 			{
 				CurrentHealth--;
 			}
+
+			Movement();
+		}
+
+		private void Movement()
+		{
+			throw new NotImplementedException();
 		}
 
 		public sealed override bool ShouldDie()

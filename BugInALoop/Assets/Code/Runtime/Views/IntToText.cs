@@ -6,7 +6,7 @@ namespace BIAL.Runtime
 	public class IntToText : MonoBehaviour
 	{
 		[SerializeField] private TextMeshProUGUI target = null;
-		[SerializeField] private OIntIdentifyer type = OIntIdentifyer.bugCatched;
+		[SerializeField] private OIntIdentifier type = OIntIdentifier.BugCaught;
 
 		private void Start()
 		{
@@ -19,12 +19,12 @@ namespace BIAL.Runtime
 			}
 
 			OnChange();
-			BehaviourFacade.s_instance.ints[(int) type] += OnChange;
+			BehaviourFacade.s_instance.Integers[(int) type] += OnChange;
 		}
 
 		private void OnChange()
 		{
-			target.text = BehaviourFacade.s_instance.ints[(int) type].value.ToString();
+			target.text = BehaviourFacade.s_instance.Integers[(int) type].value.ToString();
 		}
 	}
 }

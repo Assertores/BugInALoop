@@ -1,5 +1,5 @@
 ﻿using System;
-using BIAL.Entities;
+using BIAL.Runtime.Entities;
 using BIAL.Runtime.DataStorage;
 using UnityEngine;
 

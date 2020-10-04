@@ -6,7 +6,7 @@ namespace BIAL.Runtime
 	public class FloatToText : MonoBehaviour
 	{
 		[SerializeField] private TextMeshProUGUI target = null;
-		[SerializeField] private OFloatIdentifyer type = OFloatIdentifyer.ink;
+		[SerializeField] private OFloatIdentifier type = OFloatIdentifier.Ink;
 
 		private void Start()
 		{
@@ -19,12 +19,12 @@ namespace BIAL.Runtime
 			}
 
 			OnChange();
-			BehaviourFacade.s_instance.floats[(int) type] += OnChange;
+			BehaviourFacade.s_instance.Floats[(int) type] += OnChange;
 		}
 
 		private void OnChange()
 		{
-			target.text = BehaviourFacade.s_instance.floats[(int) type].value.ToString();
+			target.text = BehaviourFacade.s_instance.Floats[(int) type].value.ToString();
 		}
 	}
 }

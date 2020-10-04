@@ -1,7 +1,7 @@
 ﻿using BIAL.Runtime.DataStorage;
 using UnityEngine;
 
-namespace BIAL.Entities
+namespace BIAL.Runtime.Entities
 {
 	public abstract class Entity : MonoBehaviour
 	{

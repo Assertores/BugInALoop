@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using BIAL.Entities;
+using BIAL.Runtime.Entities;
 using BIAL.Runtime.Interfaces;
 using UnityEngine;
 

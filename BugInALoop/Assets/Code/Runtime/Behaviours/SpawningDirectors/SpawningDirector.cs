@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BIAL.Entities;
+using BIAL.Runtime.Entities;
 using BIAL.Runtime.DataStorage;
-using BIAL.Singletons;
+using BIAL.Runtime.Singletons;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -35,9 +35,7 @@ namespace BIAL.Runtime.Spawning
 			TrySpawn();
 			if (ShouldDirectorDestroy())
 			{
-				DirectorWillDestroy();
-				directorWillDestroy = true;
-				Destroy(gameObject);
+				ForceDestroyDirector();
 			}
 		}
 
@@ -50,6 +48,13 @@ namespace BIAL.Runtime.Spawning
 					CreateNewEntity(config);
 				}
 			}
+		}
+
+		public void ForceDestroyDirector()
+		{
+			DirectorWillDestroy();
+			directorWillDestroy = true;
+			Destroy(gameObject);
 		}
 
 		private static void CreateNewEntity(EntityConfig config)

@@ -3,37 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using AsserTOOLres;
 
-namespace BIAL {
-	public enum OIntIdentifyer : int {
-		bugCatched = 0,
-		size
+namespace BIAL.Runtime 
+{
+	public enum OIntIdentifier : int {
+		BugCaught = 0,
+		Size
 	}
 
-	public enum OFloatIdentifyer : int {
-		ink = 0,
-		size
+	public enum OFloatIdentifier : int {
+		Ink = 0,
+		Size
 	}
 
 	public enum Scene : int {
-		startUp = 0,
-		menu,
-		game,
+		StartUp = 0,
+		Menu,
+		Game,
 		gameOver,
-		size
+		Size
 	}
 
 	public class BehaviourFacade : Singleton<BehaviourFacade> {
 
-		public Observable<int>[] ints = new Observable<int>[(int)OIntIdentifyer.size];
-		public Observable<float>[] floats = new Observable<float>[(int)OFloatIdentifyer.size];
-		public Observable<Scene> currentScene = new Observable<Scene>();
+		public readonly Observable<int>[] Integers = new Observable<int>[(int)OIntIdentifier.Size];
+		public readonly Observable<float>[] Floats = new Observable<float>[(int)OFloatIdentifier.Size];
+		public Observable<Scene> CurrentScene = new Observable<Scene>();
 
 		protected override void OnMyAwake() {
-			for(int i = 0; i < ints.Length; i++) {
-				ints[i] = new Observable<int>();
+			for(int i = 0; i < Integers.Length; i++) {
+				Integers[i] = new Observable<int>();
 			}
-			for(int i = 0; i < floats.Length; i++) {
-				floats[i] = new Observable<float>();
+			for(int i = 0; i < Floats.Length; i++) {
+				Floats[i] = new Observable<float>();
 			}
 		}
 	}

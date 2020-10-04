@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using AsserTOOLres;
-using BIAL.Entities;
+using BIAL.Runtime.Entities;
 
-namespace BIAL.Singletons
+namespace BIAL.Runtime.Singletons
 {
 	public class EntityStateManager : Singleton<EntityStateManager>
 	{
