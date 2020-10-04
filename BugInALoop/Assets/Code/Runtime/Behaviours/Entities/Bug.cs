@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using BIAL.Runtime;
 using BIAL.Runtime.DataStorage;
 using BIAL.Runtime.Interfaces;
 using BIAL.Runtime.Singletons;
@@ -18,7 +16,7 @@ namespace BIAL.Runtime.Entities
 
 		public override void Ready()
 		{
-			throw new NotImplementedException();
+			Pen.s_changedBlocker += CheckOnHealthCheck;
 		}
 
 		protected sealed override void OnEntityInitialised()
@@ -31,13 +29,21 @@ namespace BIAL.Runtime.Entities
 
 		private void FixedUpdate()
 		{
-			//TODO: Dont use this in fixed update, call it when necessary 
+			Movement();
+		}
+
+		private void CheckOnHealthCheck()
+		{
+			if ((BehaviourFacade.s_instance.CurrentScene.value != Scene.Game)
+				|| (CurrentHealth                              <= 0))
+			{
+				return;
+			}
+
 			if (ShouldTakeDamage())
 			{
 				CurrentHealth--;
 			}
-
-			Movement();
 		}
 
 		private void Movement()
@@ -84,7 +90,7 @@ namespace BIAL.Runtime.Entities
 				{
 					continue;
 				}
-				
+
 				NavMeshPath path = new NavMeshPath();
 				if (NavMesh.CalculatePath(transform.position, other.transform.position, NavMesh.AllAreas, path))
 				{
@@ -108,7 +114,13 @@ namespace BIAL.Runtime.Entities
 
 		public override void TearDown()
 		{
+			Pen.s_changedBlocker -= CheckOnHealthCheck;
 			PoolOrigin?.ReturnPoolObject(this);
+		}
+
+		private void OnDestroy()
+		{
+			Pen.s_changedBlocker -= CheckOnHealthCheck;
 		}
 	}
 }
