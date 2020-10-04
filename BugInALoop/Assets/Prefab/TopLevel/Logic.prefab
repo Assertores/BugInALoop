@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2792092504679450630
 Transform:
   m_ObjectHideFlags: 0
@@ -356,7 +356,6 @@ MonoBehaviour:
   ingameInk: {fileID: 8163078315603639846}
   menuInk: {fileID: 4102069287407151054}
   ingamePaper: {fileID: 7721367087234812470}
-  menuPaper: {fileID: 0}
 --- !u!212 &3386647737976240791
 SpriteRenderer:
   m_ObjectHideFlags: 0
