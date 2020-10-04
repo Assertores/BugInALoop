@@ -25,8 +25,13 @@ namespace BIAL.Runtime {
 			if(isPaused) {
 				return;
 			}
+			bool hasRemovedSegemnts = false;
 			while(line.Count > 0 && line.Peek().proneTime < Time.time) {
 				RemoveSegment();
+				hasRemovedSegemnts = true;
+			}
+			if(hasRemovedSegemnts) {
+				Pen.s_changedBlocker?.Invoke();
 			}
 		}
 
@@ -51,6 +56,8 @@ namespace BIAL.Runtime {
 				element.segmentObject.transform.GetChild(1).localPosition *= (endPos - lastPos).magnitude;
 
 				inkUsage = (endPos - lastPos).magnitude;
+
+				Pen.s_changedBlocker?.Invoke();
 			}
 
 			line.Enqueue(element);
