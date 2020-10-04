@@ -8,6 +8,8 @@ namespace BIAL.Runtime {
 
 		static GameObject s_vanishPoint = null;
 
+		[SerializeField] PlayRandomAudioSource audio = null;
+
 		private void OnEnable() {
 			Pen.s_changedBlocker += CheckForExecution;
 			
@@ -28,6 +30,7 @@ namespace BIAL.Runtime {
 					return;
 				}
 			}
+			audio?.Play();
 			Execute();
 		}
 

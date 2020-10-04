@@ -18,7 +18,6 @@ namespace BIAL.Runtime {
 		}
 
 		void OnChange(Observable<Scene> element) {
-			Debug.Log("Szene: " + BehaviourFacade.s_instance.CurrentScene.value);
 			gameObject.SetActive(element.value == scene);
 		}
 	}
