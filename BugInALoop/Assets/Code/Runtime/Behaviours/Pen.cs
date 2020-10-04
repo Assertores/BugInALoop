@@ -9,6 +9,7 @@ namespace BIAL.Runtime {
 		[SerializeField] Ink ink = null;
 		[SerializeField] Transform bottemLeftCorner = null;
 		[SerializeField] Transform topRightCorner = null;
+		[SerializeField] LayerMask mask = new LayerMask();
 
 		bool isAlreadyDrawing = false;
 
@@ -33,15 +34,21 @@ namespace BIAL.Runtime {
 
 		void OnChange(Observable<Vector2> element) {
 
-			if(Physics.Raycast(Camera.main.ScreenPointToRay(element.value), out RaycastHit hit)) {
+			if(Physics.Raycast(Camera.main.ScreenPointToRay(element.value), out RaycastHit hit, 1000.0f, mask)) {
+#if Obsolete
 				if(hit.point.x < bottemLeftCorner.position.x ||
 					hit.point.x > topRightCorner.position.x ||
 					hit.point.z < bottemLeftCorner.position.z ||
 					hit.point.z > topRightCorner.position.z) {
 					return;
 				}
-
 				transform.position = hit.point;
+#else
+				transform.position = new Vector3(
+					Mathf.Clamp(hit.point.x, bottemLeftCorner.position.x, topRightCorner.position.x),
+					hit.point.y,
+					Mathf.Clamp(hit.point.z, bottemLeftCorner.position.z, topRightCorner.position.z));
+#endif
 			}
 		}
 	}
