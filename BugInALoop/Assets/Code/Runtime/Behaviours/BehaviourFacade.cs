@@ -18,6 +18,7 @@ namespace BIAL {
 		startUp = 0,
 		menu,
 		game,
+		gameOver,
 		size
 	}
 
