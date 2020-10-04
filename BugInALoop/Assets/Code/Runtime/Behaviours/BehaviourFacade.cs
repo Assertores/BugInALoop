@@ -19,7 +19,7 @@ namespace BIAL.Runtime
 		StartUp = 0,
 		Menu,
 		Game,
-		gameOver,
+		GameOver,
 		Size
 	}
 

@@ -21,8 +21,8 @@ namespace BIAL.Runtime {
 		private void Awake() {
 			InputAdapter.s_instance.startDrawing += StartDrawing;
 			InputAdapter.s_instance.currentPos += OnChange;
-			BehaviourFacade.s_instance.currentScene += ChangeSzene;
-			ChangeSzene(BehaviourFacade.s_instance.currentScene);
+			BehaviourFacade.s_instance.CurrentScene += ChangeSzene;
+			ChangeSzene(BehaviourFacade.s_instance.CurrentScene);
 		}
 
 		private void OnDestroy() {
@@ -31,13 +31,13 @@ namespace BIAL.Runtime {
 				InputAdapter.s_instance.currentPos -= OnChange;
 			}
 			if(BehaviourFacade.Exists()) {
-				BehaviourFacade.s_instance.currentScene -= ChangeSzene;
+				BehaviourFacade.s_instance.CurrentScene -= ChangeSzene;
 			}
 		}
 
 		private void FixedUpdate() {
 			if(isAlreadyDrawing) {
-				float inkUsage = ink.AddSegment(transform.position);
+				float inkUsage = currentInk.AddSegment(transform.position);
 				if(BehaviourFacade.s_instance.CurrentScene.value == Scene.Game) {
 					BehaviourFacade.s_instance.Floats[(int)OFloatIdentifier.Ink].value -= inkUsage;
 				}
@@ -58,15 +58,15 @@ namespace BIAL.Runtime {
 
 		void ChangeSzene(Observable<Scene> szene) {
 			switch(szene.value) {
-			case Scene.menu:
+			case Scene.Menu:
 				currentPaper = menuPaper;
 				break;
-			case Scene.game:
+			case Scene.Game:
 				currentInk = ingameInk;
 				ingameInk.Resume();
 				currentPaper = ingamePaper;
 				return;
-			case Scene.gameOver:
+			case Scene.GameOver:
 				ingameInk.Clear();
 				break;
 			default:

@@ -11,13 +11,13 @@ namespace BIAL.Runtime {
 		void Start() {
 			Camera.main.transform.position = startPos.position;
 			Camera.main.transform.rotation = startPos.rotation;
-			Singletons.Transition.s_instance.TriggerTransition(endPos, time);
-			StartCoroutine(IEChangeSzene(Scene.menu, time));
+			BIAL.Singletons.Transition.s_instance.TriggerTransition(endPos, time);
+			StartCoroutine(IEChangeSzene(Scene.Menu, time));
 		}
 
 		IEnumerator IEChangeSzene(Scene scene, float delay) {
 			yield return new WaitForSeconds(delay);
-			BehaviourFacade.s_instance.currentScene.value = scene;
+			BehaviourFacade.s_instance.CurrentScene.value = scene;
 			Destroy(this);
 		}
 	}
